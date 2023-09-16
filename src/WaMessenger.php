@@ -20,8 +20,7 @@ class WaMessenger {
             'phonenumber' => $this->receivers,
         ];
         if (!empty($fileUrl)) $dataToSend['url'] = $fileUrl;
-        $response = $this->sendCurlRequest("https://api.wamessenger.ir/sendMessage/{$this->apiKey}", $dataToSend);
-        return count($this->receivers) == 1 ? [['phonenumber' => $this->receivers[0], 'tracking_code' => $response]] : json_decode($response, true);
+        return $this->sendCurlRequest("https://api.wamessenger.ir/sendMessage/{$this->apiKey}", $dataToSend);
     }
 
     public function setApiKey($apiKey) {
