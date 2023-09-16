@@ -1,0 +1,19 @@
+{
+    "name": "salavati/wa-messenger",
+    "description": "Send messages to WhatsApp using https://wamessenger.net API.",
+    "type": "library",
+    "license": "mit",
+    "autoload": {
+        "psr-4": {
+            "Salavati\\WaMessenger\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ali Salavati",
+            "email": "salavati.cuber@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
