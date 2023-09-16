@@ -56,10 +56,6 @@ class WaMessenger {
             ],
         ]);
 
-//        curl_setopt($curl, CURLOPT_VERBOSE, 1);
-//        $fp = fopen(__DIR__ . '/error.log', 'w');
-//        curl_setopt($curl, CURLOPT_STDERR, $fp);
-
         $response = curl_exec($curl);
         $err = curl_error($curl);
         if ($err) throw new WaMessengerException("cURL Error #:" . $err);
