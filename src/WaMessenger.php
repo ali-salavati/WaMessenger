@@ -22,6 +22,7 @@ class WaMessenger extends WaMessengerModel {
         $response = $this->sendCurlRequest("https://api.wamessenger.ir/sendMessage/{$this->apiKey}", $dataToSend);
         $result = json_decode($response);
         if (!$result) throw new WaMessengerException('Is not JSON: ' . $response);
+        return $result;
     }
 
     /**
@@ -32,7 +33,22 @@ class WaMessenger extends WaMessengerModel {
         $url = "https://api.wamessenger.ir/getStatus/{$this->apiKey}?id={$messageId}";
         $response = $this->sendCurlRequest($url, [], 'GET');
         $result = json_decode($response);
-        if (!$result && strtolower($result->set) == 'true') throw new WaMessengerException('Unknown Error.');
+        $success = $result && !empty($result->pageCount);
+        if (!$success) throw new WaMessengerException(isset($result->message) ? $result->message : 'Unknown Error.');
+        return $result;
+    }
+
+    /**
+     * @throws WaMessengerException
+     */
+    public function receiveAllMessagesStatus($phoneNumber, $page = 1) {
+        if (empty($phoneNumber)) throw new WaMessengerException('Phone number is required.');
+        $url = "https://api.wamessenger.ir/showAllMessages/{$this->apiKey}?phonenumber={$phoneNumber}&page={$page}";
+        $response = $this->sendCurlRequest($url, [], 'GET');
+        $result = json_decode($response);
+        $success = $result && strtolower($result->set) == 'true';
+        if (!$success) throw new WaMessengerException(isset($result->message) ? $result->message : 'Unknown Error.');
+        return $result;
     }
 
     /**
