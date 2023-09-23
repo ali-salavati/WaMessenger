@@ -16,7 +16,5 @@
     ],
     "minimum-stability": "dev",
     "require": {
-      "ext-curl": "*",
-      "ext-json": "*"
     }
 }
