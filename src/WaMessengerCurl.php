@@ -5,6 +5,7 @@ namespace Salavati\WaMessenger;
 use Salavati\WaMessengerException\WaMessengerException;
 
 trait WaMessengerCurl {
+    public $timeout = 30;
     public $response = null;
 
     /**

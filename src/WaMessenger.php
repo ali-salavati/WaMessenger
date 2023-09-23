@@ -6,7 +6,6 @@ use Salavati\WaMessengerException\WaMessengerException;
 
 class WaMessenger extends WaMessengerModel {
     use WaMessengerCurl;
-    public $timeout = 30;
     private $domain = 'https://api.wamessenger.ir';
 
     /**
