@@ -54,6 +54,18 @@ class WaMessenger extends WaMessengerModel {
     /**
      * @throws WaMessengerException
      */
+    public function receivePendingMessages() {
+        $url = "https://api.wamessenger.ir/pending/{$this->apiKey}";
+        $response = $this->sendCurlRequest($url, [], 'GET');
+        if ($response == 'No Pending Message') return [];
+        $result = json_decode($response);
+        if (!$result) throw new WaMessengerException('Unknown Error.');
+        return $result;
+    }
+
+    /**
+     * @throws WaMessengerException
+     */
     public function sendWebhook($webhook) {
         if (!filter_var($webhook, FILTER_VALIDATE_URL)) throw new WaMessengerException('URL is not valid');
         $this->webhook = $webhook;
