@@ -7,6 +7,7 @@ use Salavati\WaMessengerException\WaMessengerException;
 class WaMessenger extends WaMessengerModel {
     use WaMessengerCurl;
     public $timeout = 30;
+    private $domain = 'https://api.wamessenger.ir';
 
     /**
      * @throws WaMessengerException
@@ -20,7 +21,7 @@ class WaMessenger extends WaMessengerModel {
             'phonenumber' => $this->receivers,
         ];
         if (!empty($fileUrl)) $dataToSend['url'] = $fileUrl;
-        $response = $this->sendCurlRequest("https://api.wamessenger.ir/sendMessage/{$this->apiKey}", $dataToSend, 'POST');
+        $response = $this->sendCurlRequest("{$this->domain}/sendMessage/{$this->apiKey}", $dataToSend, 'POST');
         $result = json_decode($response);
         if (!$result) throw new WaMessengerException('Is not JSON: ' . $response);
         return $result;
@@ -31,7 +32,7 @@ class WaMessenger extends WaMessengerModel {
      */
     public function receiveMessageStatus($messageId) {
         if (empty($messageId)) throw new WaMessengerException('Message ID is required.');
-        $url = "https://api.wamessenger.ir/getStatus/{$this->apiKey}?id={$messageId}";
+        $url = "{$this->domain}/getStatus/{$this->apiKey}?id={$messageId}";
         $response = $this->sendCurlRequest($url, []);
         $result = json_decode($response);
         $success = $result && !empty($result->pageCount);
@@ -44,7 +45,7 @@ class WaMessenger extends WaMessengerModel {
      */
     public function receiveAllMessagesStatus($phoneNumber, $page = 1) {
         if (empty($phoneNumber)) throw new WaMessengerException('Phone number is required.');
-        $url = "https://api.wamessenger.ir/showAllMessages/{$this->apiKey}?phonenumber={$phoneNumber}&page={$page}";
+        $url = "{$this->domain}/showAllMessages/{$this->apiKey}?phonenumber={$phoneNumber}&page={$page}";
         $response = $this->sendCurlRequest($url, []);
         $result = json_decode($response);
         $success = $result && strtolower($result->set) == 'true';
@@ -56,7 +57,7 @@ class WaMessenger extends WaMessengerModel {
      * @throws WaMessengerException
      */
     public function receivePendingMessages() {
-        $url = "https://api.wamessenger.ir/pending/{$this->apiKey}";
+        $url = "{$this->domain}/pending/{$this->apiKey}";
         $response = $this->sendCurlRequest($url, []);
         if ($response == 'No Pending Message') return [];
         $result = json_decode($response);
@@ -69,7 +70,7 @@ class WaMessenger extends WaMessengerModel {
      */
     public function receiveAllMessages($phoneNumber, $page = 1) {
         if (empty($messageId)) throw new WaMessengerException('Message ID is required.');
-        $url = "https://api.wamessenger.ir/showAllGetMessages/{$this->apiKey}?phonenumber={$phoneNumber}&page={$page}";
+        $url = "{$this->domain}/showAllGetMessages/{$this->apiKey}?phonenumber={$phoneNumber}&page={$page}";
         $response = $this->sendCurlRequest($url, []);
         $result = json_decode($response);
         $success = $result && !empty($result->pageCount);
@@ -83,7 +84,7 @@ class WaMessenger extends WaMessengerModel {
     public function sendWebhook($webhook) {
         if (!filter_var($webhook, FILTER_VALIDATE_URL)) throw new WaMessengerException('URL is not valid');
         $this->webhook = $webhook;
-        $url = "https://api.wamessenger.ir/webhook/set/{$this->apiKey}?url={$this->webhook}";
+        $url = "{$this->domain}/webhook/set/{$this->apiKey}?url={$this->webhook}";
         $response = $this->sendCurlRequest($url, []);
         $result = json_decode($response);
         $success = $result && strtolower($result->set) == 'true';
@@ -95,7 +96,7 @@ class WaMessenger extends WaMessengerModel {
      * @throws WaMessengerException
      */
     public function removeWebhook() {
-        $url = "https://api.wamessenger.ir/webhook/remove/{$this->apiKey}";
+        $url = "{$this->domain}/webhook/remove/{$this->apiKey}";
         $response = $this->sendCurlRequest($url, []);
         $result = json_decode($response);
         $success = $result && strtolower($result->set) == 'true';
@@ -107,7 +108,7 @@ class WaMessenger extends WaMessengerModel {
      * @throws WaMessengerException
      */
     public function receiveWebhookPending() {
-        $url = "https://api.wamessenger.ir/webhook/pending/{$this->apiKey}";
+        $url = "{$this->domain}/webhook/pending/{$this->apiKey}";
         $response = $this->sendCurlRequest($url, []);
         $result = json_decode($response);
         if (!$result) throw new WaMessengerException('Unknown Error.');
@@ -118,7 +119,7 @@ class WaMessenger extends WaMessengerModel {
      * @throws WaMessengerException
      */
     public function sendSeen() {
-        $url = "https://api.wamessenger.ir/sendSeen/{$this->apiKey}?seen=on";
+        $url = "{$this->domain}/sendSeen/{$this->apiKey}?seen=on";
         $response = $this->sendCurlRequest($url, []);
         $result = json_decode($response);
         $success = $result && strtolower($result->set) == 'true';
@@ -130,7 +131,7 @@ class WaMessenger extends WaMessengerModel {
      */
     public function enableReceiveMessage($enable = true) {
         $onOrOff = $enable ? 'on' : 'off';
-        $url = "https://api.wamessenger.ir/receive/{$this->apiKey}?receive={$onOrOff}";
+        $url = "{$this->domain}/receive/{$this->apiKey}?receive={$onOrOff}";
         $response = $this->sendCurlRequest($url, []);
         $result = json_decode($response);
         $success = $result && strtolower($result->set) == 'true';
