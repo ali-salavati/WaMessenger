@@ -1,7 +1,7 @@
 <?php
 
 use Salavati\WaMessenger\WaMessenger;
-use Salavati\WaMessengerException\WaMessengerException;
+use Salavati\WaMessenger\WaMessengerException;
 
 $waMessenger = new WaMessenger();
 try {

@@ -2,8 +2,6 @@
 
 namespace Salavati\WaMessenger;
 
-use Salavati\WaMessengerException\WaMessengerException;
-
 class WaMessenger extends WaMessengerModel {
     use WaMessengerCurl;
     private $domain = 'https://api.wamessenger.ir';

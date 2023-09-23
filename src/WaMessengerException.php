@@ -1,6 +1,6 @@
 <?php
 
-namespace Salavati\WaMessengerException;
+namespace Salavati\WaMessenger;
 
 use Exception;
 
