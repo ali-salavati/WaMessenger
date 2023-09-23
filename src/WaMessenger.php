@@ -11,15 +11,28 @@ class WaMessenger extends WaMessengerModel {
      * @throws WaMessengerException
      */
     public function sendMessage($text, $fileUrl = null) {
-        if (empty($this->receivers)) throw new WaMessengerException('شماره دریافت‌کنندگان خالی است.');
-        if (empty($text) && empty($fileUrl)) throw new WaMessengerException('متن پیام و نشانی فایل خالی هستند.');
+        if (empty($this->receivers)) throw new WaMessengerException('At least one receiver phone number is required.');
+        if (empty($text) && empty($fileUrl)) throw new WaMessengerException('Message text and file URL are empty. At least one of them is required.');
         $dataToSend = [
             'apikey' => $this->apiKey,
             'text' => $text,
             'phonenumber' => $this->receivers,
         ];
         if (!empty($fileUrl)) $dataToSend['url'] = $fileUrl;
-        return $this->sendCurlRequest("https://api.wamessenger.ir/sendMessage/{$this->apiKey}", $dataToSend);
+        $response = $this->sendCurlRequest("https://api.wamessenger.ir/sendMessage/{$this->apiKey}", $dataToSend);
+        $result = json_decode($response);
+        if (!$result) throw new WaMessengerException('Is not JSON: ' . $response);
+    }
+
+    /**
+     * @throws WaMessengerException
+     */
+    public function receiveMessageStatus($messageId) {
+        if (empty($messageId)) throw new WaMessengerException('Message ID is required.');
+        $url = "https://api.wamessenger.ir/getStatus/{$this->apiKey}?id={$messageId}";
+        $response = $this->sendCurlRequest($url, [], 'GET');
+        $result = json_decode($response);
+        if (!$result && strtolower($result->set) == 'true') throw new WaMessengerException('Unknown Error.');
     }
 
     /**
