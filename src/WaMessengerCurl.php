@@ -10,7 +10,7 @@ trait WaMessengerCurl {
     /**
      * @throws WaMessengerException
      */
-    private function sendCurlRequest($address, $data = [], $method = 'POST') {
+    private function sendCurlRequest($address, $data = [], $method = 'GET') {
         $curl = curl_init();
 
         curl_setopt_array($curl, [
