@@ -33,7 +33,7 @@ class WaMessenger extends WaMessengerModel {
         $response = $this->sendCurlRequest($url, []);
         $result = json_decode($response);
         $success = $result && !empty($result->pageCount);
-        if (!$success) throw new WaMessengerException(isset($result->message) ? $result->message : 'Unknown Error.');
+        if (!$success) throw new WaMessengerException(isset($result->message) ? $result->message : "Unknown Error. Server response: {$this->response}");
         return $result;
     }
 
@@ -46,7 +46,7 @@ class WaMessenger extends WaMessengerModel {
         $response = $this->sendCurlRequest($url, []);
         $result = json_decode($response);
         $success = $result && strtolower($result->set) == 'true';
-        if (!$success) throw new WaMessengerException(isset($result->message) ? $result->message : 'Unknown Error.');
+        if (!$success) throw new WaMessengerException(isset($result->message) ? $result->message : "Unknown Error. Server response: {$this->response}");
         return $result;
     }
 
@@ -58,7 +58,7 @@ class WaMessenger extends WaMessengerModel {
         $response = $this->sendCurlRequest($url, []);
         if ($response == 'No Pending Message') return [];
         $result = json_decode($response);
-        if (!$result) throw new WaMessengerException('Unknown Error.');
+        if (!$result) throw new WaMessengerException("Unknown Error. Server response: {$this->response}");
         return $result;
     }
 
@@ -66,12 +66,12 @@ class WaMessenger extends WaMessengerModel {
      * @throws WaMessengerException
      */
     public function receiveAllMessages($phoneNumber, $page = 1) {
-        if (empty($messageId)) throw new WaMessengerException('Message ID is required.');
+        if (empty($phoneNumber)) throw new WaMessengerException('Phone number is required.');
         $url = "{$this->domain}/showAllGetMessages/{$this->apiKey}?phonenumber={$phoneNumber}&page={$page}";
         $response = $this->sendCurlRequest($url, []);
         $result = json_decode($response);
         $success = $result && !empty($result->pageCount);
-        if (!$success) throw new WaMessengerException(isset($result->message) ? $result->message : 'Unknown Error.');
+        if (!$success) throw new WaMessengerException(isset($result->message) ? $result->message : "Unknown Error. Server response: {$this->response}");
         return $result;
     }
 
@@ -85,7 +85,7 @@ class WaMessenger extends WaMessengerModel {
         $response = $this->sendCurlRequest($url, []);
         $result = json_decode($response);
         $success = $result && strtolower($result->set) == 'true';
-        if (!$success) throw new WaMessengerException(isset($result->message) ? $result->message : 'Unknown Error.');
+        if (!$success) throw new WaMessengerException(isset($result->message) ? $result->message : "Unknown Error. Server response: {$this->response}");
         return $result;
     }
 
@@ -97,7 +97,7 @@ class WaMessenger extends WaMessengerModel {
         $response = $this->sendCurlRequest($url, []);
         $result = json_decode($response);
         $success = $result && strtolower($result->set) == 'true';
-        if (!$success) throw new WaMessengerException(isset($result->message) ? $result->message : 'Unknown Error.');
+        if (!$success) throw new WaMessengerException(isset($result->message) ? $result->message : "Unknown Error. Server response: {$this->response}");
         return $result;
     }
 
@@ -108,7 +108,7 @@ class WaMessenger extends WaMessengerModel {
         $url = "{$this->domain}/webhook/pending/{$this->apiKey}";
         $response = $this->sendCurlRequest($url, []);
         $result = json_decode($response);
-        if (!$result) throw new WaMessengerException('Unknown Error.');
+        if (!$result) throw new WaMessengerException("Unknown Error. Server response: {$this->response}");
         return (int) $result->pending;
     }
 
@@ -120,7 +120,7 @@ class WaMessenger extends WaMessengerModel {
         $response = $this->sendCurlRequest($url, []);
         $result = json_decode($response);
         $success = $result && strtolower($result->set) == 'true';
-        if (!$success) throw new WaMessengerException(isset($result->message) ? $result->message : 'Unknown Error.');
+        if (!$success) throw new WaMessengerException(isset($result->message) ? $result->message : "Unknown Error. Server response: {$this->response}");
     }
 
     /**
@@ -132,7 +132,7 @@ class WaMessenger extends WaMessengerModel {
         $response = $this->sendCurlRequest($url, []);
         $result = json_decode($response);
         $success = $result && strtolower($result->set) == 'true';
-        if (!$success) throw new WaMessengerException(isset($result->message) ? $result->message : 'Unknown Error.');
+        if (!$success) throw new WaMessengerException(isset($result->message) ? $result->message : "Unknown Error. Server response: {$this->response}");
     }
 
 }
