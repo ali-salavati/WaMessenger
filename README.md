@@ -1,4 +1,4 @@
-<div align='center'>
+<div style='text-align: center'>
 <img src=https://wamessenger.net/wp-content/uploads/2022/08/logo-wamessenger-v4.png alt="logo" width=195 height=50 />
 <p>Whatsapp API using <a href="https://wamessenger.net" target="_blank">wamessenger.net</a></p>
 <h4>
@@ -11,12 +11,13 @@
 </h4>
 </div>
 
-# Table of Contents
+# :notebook_with_decorative_cover: Table of Contents
 - [About the Project](#star2-about-the-project)
 - [License](#warning-license)
 
 
 ## :star2: About the Project
+<b>WaMessenger</b> is a web service for sending and receiving messages, webhooks, and other reports from WhatsApp.
 
 ## :warning: License
 
