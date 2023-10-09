@@ -101,6 +101,14 @@ class WaMessenger extends WaMessengerModel {
     /**
      * @throws WaMessengerException
      */
+    public function resendWebhook() {
+        $url = "{$this->domain}/webhook/resend/{$this->apiKey}";
+        return $this->sendRequest($url, function () { return true; });
+    }
+
+    /**
+     * @throws WaMessengerException
+     */
     public function sendSeen() {
         $url = "{$this->domain}/sendSeen/{$this->apiKey}?seen=on";
         return $this->sendRequest($url, function ($result) { return strtolower($result->set) == 'true'; });
