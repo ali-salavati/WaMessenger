@@ -75,7 +75,7 @@ class WaMessenger extends WaMessengerModel {
     /**
      * @throws WaMessengerException
      */
-    public function sendWebhook($webhook) {
+    public function setWebhook($webhook) {
         if (!filter_var($webhook, FILTER_VALIDATE_URL)) throw new WaMessengerException('URL is not valid');
         $this->webhook = $webhook;
         $url = "{$this->domain}/webhook/set/{$this->apiKey}?url={$this->webhook}";
