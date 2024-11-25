@@ -6,6 +6,7 @@ namespace Salavati\WaMessenger;
 class WaMessenger extends WaMessengerModel {
     use WaMessengerCurl;
     private $domain = 'https://api.360messenger.com';
+    public $debug = false;
 
     /**
      * @throws WaMessengerException
@@ -19,7 +20,9 @@ class WaMessenger extends WaMessengerModel {
             'phonenumber' => $this->receivers,
         ];
         if (!empty($fileUrl)) $dataToSend['url'] = $fileUrl;
+        if ($this->debug) error_log(__FILE__ . ':' . __LINE__ . ' ' . json_encode($dataToSend));
         $response = $this->sendCurlRequest("{$this->domain}/sendMessage/{$this->apiKey}", $dataToSend, 'POST');
+        if ($this->debug) error_log(__FILE__ . ':' . __LINE__ . ' ' . json_encode($response));
         $result = json_decode($response);
         if (!$result) throw new WaMessengerException('Is not JSON: ' . $response);
         return $result;
@@ -30,6 +33,7 @@ class WaMessenger extends WaMessengerModel {
      */
     private function sendRequest($url, $isSuccess) {
         $response = $this->sendCurlRequest($url, []);
+        if ($this->debug) error_log(__FILE__ . ':' . __LINE__ . ' ' . json_encode($response));
         if ($response == 'No Pending Message') return [];
         $result = json_decode($response);
         $success = $result && $isSuccess($result);
