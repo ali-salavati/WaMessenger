@@ -20,10 +20,10 @@ trait WaMessengerCurl {
             CURLOPT_TIMEOUT => $this->timeout,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => $method,
-            CURLOPT_POSTFIELDS => http_build_query($data),
+            CURLOPT_POSTFIELDS => json_encode($data),
             CURLOPT_HTTPHEADER => [
                 "cache-control: no-cache",
-                "Content-Type: application/x-www-form-urlencoded"
+                "Content-Type: application/json"
             ],
         ]);
 
