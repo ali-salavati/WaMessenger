@@ -13,11 +13,8 @@ class WaMessenger extends WaMessengerModel {
     public function sendMessage($text, $fileUrl = null, $log = null) {
         if (empty($this->receivers)) throw new WaMessengerException('At least one receiver phone number is required.');
         if (empty($text) && empty($fileUrl)) throw new WaMessengerException('Message text and file URL are empty. At least one of them is required.');
-        $dataToSend = [
-            'apikey' => $this->apiKey,
-            'text' => $text,
-            'phonenumber' => $this->receivers,
-        ];
+        $dataToSend = ['phonenumber' => $this->receivers];
+        if (!empty($text)) $dataToSend['text'] = $text;
         if (!empty($fileUrl)) $dataToSend['url'] = $fileUrl;
         $address = "{$this->domain}/sendMessage/{$this->apiKey}";
         if ($log) {
