@@ -24,7 +24,7 @@ class WaMessenger extends WaMessengerModel {
             $log($address, __FILE__, __LINE__);
             $log($dataToSend, __FILE__, __LINE__);
         }
-        $response = $this->sendCurlRequest($address, $dataToSend, 'POST');
+        $response = $this->sendCurlRequest($address, $dataToSend, 'POST', $log);
         if ($log) $log($response, __FILE__, __LINE__);
         return $response;
     }
@@ -33,7 +33,7 @@ class WaMessenger extends WaMessengerModel {
      * @throws WaMessengerException
      */
     private function sendRequest($url, $isSuccess, $log = null) {
-        $response = $this->sendCurlRequest($url, []);
+        $response = $this->sendCurlRequest($url, [], 'GET', $log);
         if ($log) $log($response, __FILE__, __LINE__);
         if ($response == 'No Pending Message') return [];
         $result = json_decode($response);
