@@ -9,10 +9,10 @@ trait WaMessengerCurl {
     /**
      * @throws WaMessengerException
      */
-    private function sendCurlRequest($address, $data = [], $method = 'GET') {
+    private function sendCurlRequest($address, $data = [], $method = 'GET', $log = null) {
         $curl = curl_init();
 
-        curl_setopt_array($curl, [
+        $curlParams = [
             CURLOPT_URL => $address,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
@@ -25,7 +25,9 @@ trait WaMessengerCurl {
                 "cache-control: no-cache",
                 "Content-Type: application/json"
             ],
-        ]);
+        ];
+        if ($log) $log($curlParams, __FILE__, __LINE__);
+        curl_setopt_array($curl, $curlParams);
 
         $this->response = curl_exec($curl);
         $err = curl_error($curl);
